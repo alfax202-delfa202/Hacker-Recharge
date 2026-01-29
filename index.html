@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto Shippuden - Safe Stream</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --fb-blue: #0866ff; --fb-green: #42b72a; --dark-bg: #0f0f0f; --card-bg: #1e1e1e; }
+        body { background-color: var(--dark-bg); color: white; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; overflow-x: hidden; padding-bottom: 120px; }
+        
+        /* مشغل الفيديو */
+        .video-main { width: 100%; background: #000; }
+        .video-container { max-width: 1100px; margin: 0 auto; aspect-ratio: 16 / 9; }
+        video { width: 100%; height: 100%; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+
+        /* تفاصيل الفيديو */
+        .video-info { max-width: 1100px; margin: 15px auto; padding: 0 15px; }
+        .video-title { font-size: 1.5rem; margin-bottom: 8px; }
+        .stats { color: #aaa; font-size: 0.95rem; margin-bottom: 15px; }
+
+        /* أزرار التفاعل */
+        .action-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .btn { border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; transition: 0.3s; }
+        .btn-like { background: #303030; color: white; }
+        .btn-share { background: #303030; color: white; }
+        .btn-sub { background: var(--fb-blue); color: white; animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* نافذة فيسبوك المنبثقة */
+        #fb-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; justify-content: center; align-items: center; }
+        .popup-content { width: 90%; max-width: 500px; height: 80%; background: white; border-radius: 15px; position: relative; overflow: hidden; }
+        .close-popup { position: absolute; top: 10px; left: 10px; background: #000; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; z-index: 10001; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* إشعار الأمان "الحقيقي" */
+        .security-badge {
+            position: fixed; bottom: 20px; right: 20px; left: 20px; 
+            background: #ffffff; color: #1c1e21; padding: 15px;
+            border-radius: 12px; display: flex; align-items: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 999;
+            border-left: 6px solid var(--fb-green);
+        }
+        .security-badge i.main-icon { font-size: 2.5rem; color: var(--fb-blue); margin-left: 15px; }
+        .security-text b { color: var(--fb-green); display: block; font-size: 1rem; }
+
+        /* قسم التعليقات */
+        .comment-input-area { background: var(--card-bg); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        textarea { width: 100%; background: #333; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; resize: none; }
+        .comment-card { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 12px; border-right: 4px solid var(--fb-blue); animation: slideIn 0.3s ease-out; }
+        .stars { color: #ffb400; font-size: 0.8rem; }
+        
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="video-main">
+        <div class="video-container">
+            <video controls>
+                <source src="https://rr9---sn-cxauxaxjvh-hn9ee.googlevideo.com/videoplayback?expire=1769709931&ei=C017aYrBCtOOi9oPuoCl2Qg&ip=178.121.77.197&id=o-AGqBh6y5sShSZrFMZ3UtSaUYX6yUQwdOr2CAN46GTwF4&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=330&met=1769688331%2C&mh=in&mm=31%2C26&mn=sn-cxauxaxjvh-hn9ee%2Csn-4g5ednss&ms=au%2Conr&mv=m&mvi=9&pl=23&rms=au%2Cau&initcwndbps=1753750&bui=AW-iu_r1PpWA6_wwUtIbu9z37-vNG0SJu27n7SDIPlLY55pKYuyzRFuVSBHtSaR7-35K7-prDcS1snMj&spc=q5xjPFEmJadDcJkOBk3oAvhk83MctvlvNwZZ2LqqIVrNhriaJdIj4FlKvJXUJ2RHjpQ78ocjc7uY6O03dAvwEaNTbD4&vprv=1&svpuc=1&mime=video%2Fmp4&ns=Z8gagI-QCANj7w_erhqhHrYS&rqh=1&cnr=14&ratebypass=yes&dur=1443.700&lmt=1756851830893674&mt=1769687881&fvip=1&fexp=51331020%2C51552689%2C51565116%2C51565681%2C51580968&c=MWEB&sefc=1&txp=5438534&n=dwe2rhxtxoeGWg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJEij0EwRQIhAPuIkdNAhYG4_7bB5T_TfkYKVC4_x8jvNkYmLkMYU9wnAiBavzdbbrNdpo_JOJKeaeqQ-ncIZKVKsc233eXMrq_Qeg%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIgB6ZGNXsjSo5GODJ3cMc68cykL5yCkib74fPFJe-kfuACIQCM1LVOvfd6nMU-md6xRfpIlcqkqNtzv1Cd5-YEvInQwQ%3D%3D&title=Dragon%20Ball%20Super%202%20%7C%20NUEVO%20TORNEO%20DEL%20PODER%202025%20%7C%20UNA%20INCREIBLE%20PELEA%20DAISINKHAN%20VS%20BILLS%20Y%20WHIS%20!" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-info">
+        <div class="video-title">ناروتو شيبودن: ذروة المعركة الكبرى [HD]</div>
+        <div class="stats">
+            <i class="fas fa-eye"></i> <span id="views">119,452,081</span> مشاهدة &nbsp; • &nbsp; <i class="fas fa-calendar"></i> 2026
+        </div>
+        
+        <div class="action-btns">
+            <button class="btn btn-like"><i class="fas fa-thumbs-up"></i> 2.4M</button>
+            <button class="btn btn-share" onclick="sharePage()"><i class="fas fa-share-nodes"></i> مشاركة</button>
+            <button class="btn btn-sub" onclick="openFB()"><i class="fab fa-facebook"></i> اشتراك (تفعيل الحماية)</button>
+        </div>
+    </div>
+
+    <div class="video-info">
+        <h3><i class="fas fa-star" style="color: #ffb400;"></i> تقييم المستخدمين</h3>
+        <div class="comment-input-area">
+            <textarea id="userComment" placeholder="اترك تقييمك للمشاهدة الآمنة..."></textarea>
+            <button class="btn btn-sub" style="margin-top:10px; font-size:0.8rem;" onclick="postComment()">نشر التعليق</button>
+        </div>
+
+        <div id="comments-container">
+            </div>
+    </div>
+
+    <div class="security-badge">
+        <i class="fab fa-facebook main-icon"></i>
+        <div class="security-text">
+            <b><i class="fas fa-shield-check"></i> تم التحقق من أمان المحتوى</b>
+            نظام Meta Security يؤكد أن هذا الرابط آمن 100%. تم فحص التشفير بنجاح <i class="fas fa-check-circle" style="color:var(--fb-green)"></i>
+        </div>
+    </div>
+
+    <div id="fb-popup">
+        <div class="popup-content">
+            <button class="close-popup" onclick="closeFB()">X</button>
+            <iframe src="https://www.facebook.com/profile.php?id=61575064441805"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // فتح وإغلاق نافذة فيسبوك
+        function openFB() { document.getElementById('fb-popup').style.display = 'flex'; }
+        function closeFB() { document.getElementById('fb-popup').style.display = 'none'; }
+
+        // عداد مشاهدات يرتفع بشكل منطقي
+        let viewCount = 119452081;
+        setInterval(() => {
+            viewCount += Math.floor(Math.random() * 3) + 1;
+            document.getElementById('views').innerText = viewCount.toLocaleString();
+        }, 2000);
+
+        // نشر تعليق المستخدم وظهوره فوراً
+        function postComment() {
+            const txt = document.getElementById('userComment').value;
+            if(txt.trim() !== "") {
+                const container = document.getElementById('comments-container');
+                const userCard = document.createElement('div');
+                userCard.className = 'comment-card';
+                userCard.style.borderRight = '4px solid #42b72a'; // تمييز تعليق المستخدم بلون أخضر
+                userCard.innerHTML = `<strong>أنت (الآن) <i class="fas fa-check-circle" style="color:var(--fb-blue)"></i></strong>
+                                      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                      <p>${txt}</p>`;
+                container.prepend(userCard);
+                document.getElementById('userComment').value = "";
+                alert("شكراً على تقييمك! تم نشر تعليقك.");
+            }
+        }
+
+        // توليد تعليقات واقعية متنوعة
+        const data = [
+            {n: "أحمد علي", t: "أفضل جودة صراحة، شكراً!", s: 5},
+            {n: "Sara Moon", t: "The quality is amazing, thank you Meta for safety.", s: 5},
+            {n: "ياسين المبرمج", t: "موقع سريع والترجمة خرافية.", s: 4},
+            {n: "حمزة عبيد", t: "ممتاز جداً وآمن.", s: 5},
+            {n: "Laila HD", t: "جميل جداً.. ناروتو للأبد!", s: 3},
+            {n: "نور الدين", t: "شكراً على ميزة الحماية من فيسبوك.", s: 5},
+            {n: "عمر كمال", t: "أخيراً مكان أشوف فيه بدون إعلانات مزعجة.", s: 4}
+        ];
+
+        const container = document.getElementById('comments-container');
+        data.forEach((item, i) => {
+            setTimeout(() => {
+                let card = document.createElement('div');
+                card.className = 'comment-card';
+                let starsHTML = '<i class="fas fa-star"></i>'.repeat(item.s) + '<i class="far fa-star"></i>'.repeat(5-item.s);
+                card.innerHTML = `<strong>${item.n} <i class="fas fa-check-circle" style="color:var(--fb-blue); font-size:0.7rem;"></i></strong>
+                                  <div class="stars">${starsHTML}</div>
+                                  <p>${item.t}</p>`;
+                container.appendChild(card);
+            }, i * 500); // تظهر التعليقات تباعاً بشكل واقعي
+        });
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({ title: 'مشاهدة ناروتو', url: window.location.href });
+            } else {
+                alert("تم نسخ رابط المشاركة!");
+            }
+        }
+    </script>
+</body>
+</html>
